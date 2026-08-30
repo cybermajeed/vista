@@ -5,6 +5,7 @@ import { Input } from "../components/ui/Input";
 import { useCartStore } from "../store/cartStore";
 import { useAuthStore } from "../store/authStore";
 import { supabase } from "../lib/supabase";
+import { getImageUrl } from "../utils";
 
 export function ProductDetails() {
   const { id } = useParams<{ id: string }>();
@@ -39,10 +40,10 @@ export function ProductDetails() {
 
       if (data && !error) {
         setProduct(data);
-        const primaryImage =
+        const dbImage =
           data.product_images?.find((img: any) => img.is_primary)?.image_url ||
-          data.product_images?.[0]?.image_url ||
-          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800";
+          data.product_images?.[0]?.image_url;
+        const primaryImage = getImageUrl(dbImage, data.categories?.name);
         setCurrentImage(primaryImage);
       }
       setLoading(false);

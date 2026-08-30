@@ -4,6 +4,7 @@ import { Card } from "../components/ui/Card";
 import { Input } from "../components/ui/Input";
 import { PillTab } from "../components/ui/Tabs";
 import { supabase } from "../lib/supabase";
+import { getImageUrl } from "../utils";
 
 export function Catalogue() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -150,11 +151,10 @@ export function Catalogue() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-xl">
             {filteredProducts.map((product) => {
-              const primaryImage =
-                product.product_images?.find((img: any) => img.is_primary)
+              const dbImage = product.product_images?.find((img: any) => img.is_primary)
                   ?.image_url ||
-                product.product_images?.[0]?.image_url ||
-                "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800";
+                product.product_images?.[0]?.image_url;
+              const primaryImage = getImageUrl(dbImage, product.categories?.name);
 
               return (
                 <Link

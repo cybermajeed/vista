@@ -4,6 +4,7 @@ import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
 import { ArrowRight } from "lucide-react";
 import { supabase } from "../lib/supabase";
+import { getImageUrl } from "../utils";
 
 export function Home() {
   const [categories, setCategories] = useState<any[]>([]);
@@ -75,10 +76,7 @@ export function Home() {
                 >
                   <div className="absolute inset-0">
                     <img
-                      src={
-                        cat.image_url ||
-                        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800"
-                      }
+                      src={getImageUrl(cat.image_url, cat.name)}
                       alt={cat.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />

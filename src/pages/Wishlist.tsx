@@ -5,6 +5,7 @@ import { Button } from '../components/ui/Button';
 import { useAuthStore } from '../store/authStore';
 import { supabase } from '../lib/supabase';
 import { Trash2, ArrowRight } from 'lucide-react';
+import { getImageUrl } from '../utils';
 
 export function Wishlist() {
   const { user, isLoading } = useAuthStore();
@@ -88,9 +89,8 @@ export function Wishlist() {
                       <Trash2 size={18} />
                     </button>
                   </div>
-                  {/* Real app would use product image */}
                   <img 
-                    src={item.products.image_url || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800"} 
+                    src={getImageUrl(item.products.image_url, item.products.categories?.name)} 
                     alt={item.products.name} 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
