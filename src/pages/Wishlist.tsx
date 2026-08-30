@@ -31,6 +31,7 @@ export function Wishlist() {
             base_price,
             pricing_unit,
             category_id,
+            image_url,
             categories ( name )
           )
         `)
@@ -89,7 +90,7 @@ export function Wishlist() {
                   </div>
                   {/* Real app would use product image */}
                   <img 
-                    src={`https://loremflickr.com/800/600/abstract?random=${item.product_id}`} 
+                    src={item.products.image_url || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800"} 
                     alt={item.products.name} 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />

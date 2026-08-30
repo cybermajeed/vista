@@ -69,7 +69,7 @@ export const MOCK_PRODUCTS: Record<string, any> = {
     category: "glass",
     basePrice: 450,
     unit: "sqmt",
-    image: "https://loremflickr.com/800/600/glass,texture",
+    image: "https://images.unsplash.com/photo-1505377059067-e285a7bac49b?auto=format&fit=crop&q=80&w=800,texture",
     attributes: [
       {
         id: "a1",
@@ -93,8 +93,8 @@ export const MOCK_PRODUCTS: Record<string, any> = {
     pricingRule: "area",
     variants: {
       a2: {
-        clear: "https://loremflickr.com/800/600/glass,texture",
-        bronze: "https://loremflickr.com/800/600/glass,bronze,texture",
+        clear: "https://images.unsplash.com/photo-1505377059067-e285a7bac49b?auto=format&fit=crop&q=80&w=800,texture",
+        bronze: "https://images.unsplash.com/photo-1505377059067-e285a7bac49b?auto=format&fit=crop&q=80&w=800,bronze,texture",
       },
     },
   },
@@ -122,7 +122,7 @@ export const MOCK_PRODUCTS: Record<string, any> = {
       a1: {
         vinyl:
           "https://images.unsplash.com/photo-1615800098779-1be32e60cca3?auto=format&fit=crop&q=80&w=800",
-        fabric: "https://loremflickr.com/800/600/fabric,texture",
+        fabric: "https://images.unsplash.com/photo-1620000788607-42299839fcbe?auto=format&fit=crop&q=80&w=800,texture",
       },
     },
   },
@@ -168,7 +168,7 @@ export const MOCK_PRODUCTS: Record<string, any> = {
     category: "flooring",
     basePrice: 180,
     unit: "sqft",
-    image: "https://loremflickr.com/800/600/marble,texture",
+    image: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=800",
     attributes: [
       {
         id: "a1",
@@ -192,8 +192,8 @@ export const MOCK_PRODUCTS: Record<string, any> = {
     pricingRule: "area",
     variants: {
       a2: {
-        honed: "https://loremflickr.com/800/600/marble,texture",
-        polished: "https://loremflickr.com/800/600/marble,polished,texture",
+        honed: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=800",
+        polished: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=800",
       },
     },
   },
@@ -203,7 +203,7 @@ export const MOCK_PRODUCTS: Record<string, any> = {
     category: "metals",
     basePrice: 520,
     unit: "sqmt",
-    image: "https://loremflickr.com/800/600/brass,metal",
+    image: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=800",
     attributes: [
       {
         id: "a1",
@@ -218,8 +218,8 @@ export const MOCK_PRODUCTS: Record<string, any> = {
     pricingRule: "area",
     variants: {
       a1: {
-        brushed: "https://loremflickr.com/800/600/brass,metal",
-        polished: "https://loremflickr.com/800/600/brass,polished",
+        brushed: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=800",
+        polished: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=800",
       },
     },
   },
@@ -229,7 +229,7 @@ export const MOCK_PRODUCTS: Record<string, any> = {
     category: "textiles",
     basePrice: 150,
     unit: "sqmt",
-    image: "https://loremflickr.com/800/600/fabric,boucle",
+    image: "https://images.unsplash.com/photo-1620000788607-42299839fcbe?auto=format&fit=crop&q=80&w=800,boucle",
     attributes: [
       {
         id: "a1",
@@ -249,7 +249,7 @@ export const MOCK_PRODUCTS: Record<string, any> = {
     category: "acoustics",
     basePrice: 210,
     unit: "sqft",
-    image: "https://loremflickr.com/800/600/wood,slats",
+    image: "https://images.unsplash.com/photo-1546413642-f81d1912df0f?auto=format&fit=crop&q=80&w=800,slats",
     attributes: [
       {
         id: "a1",

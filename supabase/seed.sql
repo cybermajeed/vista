@@ -3,14 +3,14 @@
 
 -- CATEGORIES
 INSERT INTO categories (name, slug, description, image_url) VALUES
-('Wood', 'wood', 'Solid, engineered, and veneers.', 'https://loremflickr.com/800/600/wood'),
-('Glass', 'glass', 'Clear, frosted, fluted, and tinted.', 'https://loremflickr.com/800/600/glass'),
-('Wallpaper', 'wallpaper', 'Textured, metallic, and vinyl finishes.', 'https://loremflickr.com/800/600/wallpaper'),
-('Lighting', 'lighting', 'Pendants, profiles, and chandeliers.', 'https://loremflickr.com/800/600/lighting'),
-('Flooring', 'flooring', 'Marble, tiles, SPC, and hardwood options.', 'https://loremflickr.com/800/600/flooring'),
-('Metals', 'metals', 'Brushed, polished, and matte metal finishes.', 'https://loremflickr.com/800/600/metal'),
-('Textiles', 'textiles', 'Premium upholstery, curtains, and rugs.', 'https://loremflickr.com/800/600/fabric'),
-('Acoustics', 'acoustics', 'Sound absorbing panels and baffles.', 'https://loremflickr.com/800/600/acoustic')
+('Wood', 'wood', 'Solid, engineered, and veneers.', 'https://images.unsplash.com/photo-1546413642-f81d1912df0f?auto=format&fit=crop&q=80&w=800'),
+('Glass', 'glass', 'Clear, frosted, fluted, and tinted.', 'https://images.unsplash.com/photo-1505377059067-e285a7bac49b?auto=format&fit=crop&q=80&w=800'),
+('Wallpaper', 'wallpaper', 'Textured, metallic, and vinyl finishes.', 'https://images.unsplash.com/photo-1615800098779-1be32e60cca3?auto=format&fit=crop&q=80&w=800'),
+('Lighting', 'lighting', 'Pendants, profiles, and chandeliers.', 'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&q=80&w=800'),
+('Flooring', 'flooring', 'Marble, tiles, SPC, and hardwood options.', 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=800'),
+('Metals', 'metals', 'Brushed, polished, and matte metal finishes.', 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=800'),
+('Textiles', 'textiles', 'Premium upholstery, curtains, and rugs.', 'https://images.unsplash.com/photo-1620000788607-42299839fcbe?auto=format&fit=crop&q=80&w=800'),
+('Acoustics', 'acoustics', 'Sound absorbing panels and baffles.', 'https://images.unsplash.com/photo-1582582494705-f8ce0b0c24f0?auto=format&fit=crop&q=80&w=800')
 ON CONFLICT (slug) DO UPDATE SET image_url = EXCLUDED.image_url;
 
 -- PRODUCTS
@@ -69,31 +69,31 @@ SELECT id, '/walnut_solid.jpg', true FROM products WHERE slug = 'walnut-solid-wo
 ON CONFLICT DO NOTHING;
 
 INSERT INTO product_images (product_id, image_url, is_primary)
-SELECT id, 'https://loremflickr.com/800/600/glass,texture', true FROM products WHERE slug = 'fluted-glass-panel'
+SELECT id, 'https://images.unsplash.com/photo-1505377059067-e285a7bac49b?auto=format&fit=crop&q=80&w=800,texture', true FROM products WHERE slug = 'fluted-glass-panel'
 ON CONFLICT DO NOTHING;
 
 INSERT INTO product_images (product_id, image_url, is_primary)
-SELECT id, 'https://loremflickr.com/800/600/wallpaper,pattern', true FROM products WHERE slug = 'geometric-wallpaper'
+SELECT id, 'https://images.unsplash.com/photo-1615800098779-1be32e60cca3?auto=format&fit=crop&q=80&w=800,pattern', true FROM products WHERE slug = 'geometric-wallpaper'
 ON CONFLICT DO NOTHING;
 
 INSERT INTO product_images (product_id, image_url, is_primary)
-SELECT id, 'https://loremflickr.com/800/600/lighting,modern', true FROM products WHERE slug = 'linear-pendant-light'
+SELECT id, 'https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&q=80&w=800,modern', true FROM products WHERE slug = 'linear-pendant-light'
 ON CONFLICT DO NOTHING;
 
 INSERT INTO product_images (product_id, image_url, is_primary)
-SELECT id, 'https://loremflickr.com/800/600/marble,texture', true FROM products WHERE slug = 'calacatta-marble-tile'
+SELECT id, 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=800', true FROM products WHERE slug = 'calacatta-marble-tile'
 ON CONFLICT DO NOTHING;
 
 INSERT INTO product_images (product_id, image_url, is_primary)
-SELECT id, 'https://loremflickr.com/800/600/brass,metal', true FROM products WHERE slug = 'brushed-brass-wall-panel'
+SELECT id, 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=800', true FROM products WHERE slug = 'brushed-brass-wall-panel'
 ON CONFLICT DO NOTHING;
 
 INSERT INTO product_images (product_id, image_url, is_primary)
-SELECT id, 'https://loremflickr.com/800/600/fabric,boucle', true FROM products WHERE slug = 'premium-boucle-fabric'
+SELECT id, 'https://images.unsplash.com/photo-1620000788607-42299839fcbe?auto=format&fit=crop&q=80&w=800,boucle', true FROM products WHERE slug = 'premium-boucle-fabric'
 ON CONFLICT DO NOTHING;
 
 INSERT INTO product_images (product_id, image_url, is_primary)
-SELECT id, 'https://loremflickr.com/800/600/wood,slats', true FROM products WHERE slug = 'acoustic-slat-wood-panel'
+SELECT id, 'https://images.unsplash.com/photo-1546413642-f81d1912df0f?auto=format&fit=crop&q=80&w=800,slats', true FROM products WHERE slug = 'acoustic-slat-wood-panel'
 ON CONFLICT DO NOTHING;
 
 -- ATTRIBUTES  

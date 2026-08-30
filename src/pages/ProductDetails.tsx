@@ -42,7 +42,7 @@ export function ProductDetails() {
         const primaryImage =
           data.product_images?.find((img: any) => img.is_primary)?.image_url ||
           data.product_images?.[0]?.image_url ||
-          `https://loremflickr.com/800/600/abstract?random=${data.id}`;
+          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800";
         setCurrentImage(primaryImage);
       }
       setLoading(false);

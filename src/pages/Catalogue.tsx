@@ -8,10 +8,10 @@ import { supabase } from "../lib/supabase";
 export function Catalogue() {
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryParam = searchParams.get("category");
-  
+
   const [activeCategory, setActiveCategory] = useState(categoryParam || "All");
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   const [categories, setCategories] = useState<string[]>(["All"]);
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -20,24 +20,28 @@ export function Catalogue() {
     const fetchCatalogueData = async () => {
       setLoading(true);
       // Fetch categories
-      const { data: catData } = await supabase.from('categories').select('name');
+      const { data: catData } = await supabase
+        .from("categories")
+        .select("name");
       if (catData) {
-        setCategories(["All", ...catData.map(c => c.name)]);
+        setCategories(["All", ...catData.map((c) => c.name)]);
       }
 
       // Fetch active products with images and categories
       const { data: prodData } = await supabase
-        .from('products')
-        .select(`
+        .from("products")
+        .select(
+          `
           id,
           name,
           base_price,
           pricing_unit,
           categories(name),
           product_images(image_url, is_primary)
-        `)
-        .eq('is_active', true);
-        
+        `,
+        )
+        .eq("is_active", true);
+
       if (prodData) {
         setProducts(prodData);
       }
@@ -49,7 +53,9 @@ export function Catalogue() {
 
   useEffect(() => {
     if (categoryParam) {
-      const match = categories.find(c => c.toLowerCase() === categoryParam.toLowerCase());
+      const match = categories.find(
+        (c) => c.toLowerCase() === categoryParam.toLowerCase(),
+      );
       if (match) setActiveCategory(match);
     } else {
       setActiveCategory("All");
@@ -82,7 +88,9 @@ export function Catalogue() {
       {/* Header */}
       <div className="bg-surface py-section px-md md:px-lg border-b border-hairline-soft">
         <div className="max-w-[1280px] mx-auto">
-          <h1 className="text-display-lg text-ink-deep mb-md font-serif">Catalogue</h1>
+          <h1 className="text-display-lg text-ink-deep mb-md font-serif">
+            Catalogue
+          </h1>
           <p className="text-subtitle text-slate max-w-2xl mb-xl font-sans">
             Browse our curated collection of premium interior materials. Find
             the perfect fit for your space and customize it to your exact
@@ -118,7 +126,9 @@ export function Catalogue() {
       <div className="max-w-[1280px] mx-auto px-md md:px-lg py-section">
         <div className="flex items-center justify-between mb-lg">
           <span className="text-body-md text-slate">
-            {loading ? "Loading..." : `${filteredProducts.length} materials found`}
+            {loading
+              ? "Loading..."
+              : `${filteredProducts.length} materials found`}
           </span>
           <select className="bg-transparent border border-hairline rounded-md px-sm py-xs text-body-sm-medium text-ink focus:outline-none focus:ring-1 focus:ring-brand-accent cursor-pointer">
             <option>Most popular</option>
@@ -132,15 +142,19 @@ export function Catalogue() {
           <div className="text-center py-section">
             <div className="animate-pulse flex flex-col items-center">
               <div className="w-12 h-12 border-4 border-brand-accent border-t-transparent rounded-full animate-spin mb-md"></div>
-              <p className="text-body-md text-slate">Fetching premium materials...</p>
+              <p className="text-body-md text-slate">
+                Fetching premium materials...
+              </p>
             </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-xl">
             {filteredProducts.map((product) => {
-              const primaryImage = product.product_images?.find((img: any) => img.is_primary)?.image_url 
-                || product.product_images?.[0]?.image_url 
-                || `https://loremflickr.com/800/600/abstract?random=${product.id}`;
+              const primaryImage =
+                product.product_images?.find((img: any) => img.is_primary)
+                  ?.image_url ||
+                product.product_images?.[0]?.image_url ||
+                "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800";
 
               return (
                 <Link

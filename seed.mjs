@@ -18,49 +18,49 @@ const categories = [
     name: "Wood",
     slug: "wood",
     description: "Solid, engineered, and veneers.",
-    image_url: "https://loremflickr.com/800/600/wood",
+    image_url: "https://images.unsplash.com/photo-1546413642-f81d1912df0f?auto=format&fit=crop&q=80&w=800",
   },
   {
     name: "Glass",
     slug: "glass",
     description: "Clear, frosted, fluted, and tinted.",
-    image_url: "https://loremflickr.com/800/600/glass",
+    image_url: "https://images.unsplash.com/photo-1505377059067-e285a7bac49b?auto=format&fit=crop&q=80&w=800",
   },
   {
     name: "Wallpaper",
     slug: "wallpaper",
     description: "Textured, metallic, and vinyl finishes.",
-    image_url: "https://loremflickr.com/800/600/wallpaper",
+    image_url: "https://images.unsplash.com/photo-1615800098779-1be32e60cca3?auto=format&fit=crop&q=80&w=800",
   },
   {
     name: "Lighting",
     slug: "lighting",
     description: "Pendants, profiles, and chandeliers.",
-    image_url: "https://loremflickr.com/800/600/lighting",
+    image_url: "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&q=80&w=800",
   },
   {
     name: "Flooring",
     slug: "flooring",
     description: "Marble, tiles, SPC, and hardwood options.",
-    image_url: "https://loremflickr.com/800/600/flooring",
+    image_url: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=800",
   },
   {
     name: "Metals",
     slug: "metals",
     description: "Brushed, polished, and matte metal finishes.",
-    image_url: "https://loremflickr.com/800/600/metal",
+    image_url: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=800",
   },
   {
     name: "Textiles",
     slug: "textiles",
     description: "Premium upholstery, curtains, and rugs.",
-    image_url: "https://loremflickr.com/800/600/fabric",
+    image_url: "https://images.unsplash.com/photo-1620000788607-42299839fcbe?auto=format&fit=crop&q=80&w=800",
   },
   {
     name: "Acoustics",
     slug: "acoustics",
     description: "Sound absorbing panels and baffles.",
-    image_url: "https://loremflickr.com/800/600/acoustic",
+    image_url: "https://images.unsplash.com/photo-1582582494705-f8ce0b0c24f0?auto=format&fit=crop&q=80&w=800",
   },
 ];
 
@@ -87,7 +87,7 @@ const products = [
     category_slug: "glass",
     base_price: 450,
     pricing_unit: "sqmt",
-    image_url: "https://loremflickr.com/800/600/glass,texture",
+    image_url: "https://images.unsplash.com/photo-1505377059067-e285a7bac49b?auto=format&fit=crop&q=80&w=800,texture",
   },
   {
     name: "Geometric Wallpaper",
@@ -95,7 +95,7 @@ const products = [
     category_slug: "wallpaper",
     base_price: 85,
     pricing_unit: "piece", // rollback unit
-    image_url: "https://loremflickr.com/800/600/wallpaper,pattern",
+    image_url: "https://images.unsplash.com/photo-1615800098779-1be32e60cca3?auto=format&fit=crop&q=80&w=800,pattern",
   },
   {
     name: "Linear Pendant Light",
@@ -103,7 +103,7 @@ const products = [
     category_slug: "lighting",
     base_price: 320,
     pricing_unit: "piece",
-    image_url: "https://loremflickr.com/800/600/lighting,modern",
+    image_url: "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&q=80&w=800,modern",
   },
   {
     name: "Calacatta Marble Tile",
@@ -111,7 +111,7 @@ const products = [
     category_slug: "flooring",
     base_price: 180,
     pricing_unit: "sqft",
-    image_url: "https://loremflickr.com/800/600/marble,texture",
+    image_url: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&q=80&w=800",
   },
   {
     name: "Brushed Brass Wall Panel",
@@ -119,7 +119,7 @@ const products = [
     category_slug: "metals",
     base_price: 520,
     pricing_unit: "sqmt",
-    image_url: "https://loremflickr.com/800/600/brass,metal",
+    image_url: "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=800",
   },
   {
     name: "Premium Boucle Fabric",
@@ -127,7 +127,7 @@ const products = [
     category_slug: "textiles",
     base_price: 150,
     pricing_unit: "sqmt",
-    image_url: "https://loremflickr.com/800/600/fabric,boucle",
+    image_url: "https://images.unsplash.com/photo-1620000788607-42299839fcbe?auto=format&fit=crop&q=80&w=800,boucle",
   },
   {
     name: "Acoustic Slat Wood Panel",
@@ -135,7 +135,7 @@ const products = [
     category_slug: "acoustics",
     base_price: 210,
     pricing_unit: "sqft",
-    image_url: "https://loremflickr.com/800/600/wood,slats",
+    image_url: "https://images.unsplash.com/photo-1546413642-f81d1912df0f?auto=format&fit=crop&q=80&w=800,slats",
   },
 ];
 
