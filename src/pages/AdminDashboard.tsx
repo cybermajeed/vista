@@ -9,6 +9,7 @@ import { useAuthStore } from "../store/authStore";
 export function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("Products");
   const [data, setData] = useState<any[]>([]);
+  const [categoryOptions, setCategoryOptions] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const { profile } = useAuthStore();
 
@@ -25,6 +26,8 @@ export function AdminDashboard() {
     let result;
     if (activeTab === "Products") {
       result = await supabase.from("products").select(`*, categories(name)`);
+      const catRes = await supabase.from("categories").select("id, name");
+      if (catRes.data) setCategoryOptions(catRes.data);
     } else if (activeTab === "Categories") {
       result = await supabase.from("categories").select("*");
     } else if (activeTab === "Orders") {
@@ -54,6 +57,31 @@ export function AdminDashboard() {
     setIsModalOpen(true);
   };
 
+  const handleDelete = async (id: string) => {
+    if (profile?.role !== "admin") return;
+    if (
+      !window.confirm(
+        `Are you sure you want to delete this ${activeTab.slice(0, -1).toLowerCase()}?`,
+      )
+    )
+      return;
+
+    let error;
+    if (activeTab === "Products") {
+      const res = await supabase.from("products").delete().eq("id", id);
+      error = res.error;
+    } else if (activeTab === "Categories") {
+      const res = await supabase.from("categories").delete().eq("id", id);
+      error = res.error;
+    }
+
+    if (error) {
+      alert("Error deleting: " + error.message);
+    } else {
+      fetchData();
+    }
+  };
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (profile?.role !== "admin") {
@@ -65,6 +93,7 @@ export function AdminDashboard() {
     if (activeTab === "Products") {
       const payload = {
         name: formData.name,
+        category_id: formData.category_id || null,
         slug: formData.slug || formData.name.toLowerCase().replace(/ /g, "-"),
         base_price: parseFloat(formData.base_price),
         pricing_unit: formData.pricing_unit || "piece",
@@ -229,12 +258,19 @@ export function AdminDashboard() {
                               {item.is_active ? "Active" : "Inactive"}
                             </Badge>
                           </td>
-                          <td className="p-md text-right">
+                          <td className="p-md text-right space-x-sm">
                             <button
                               onClick={() => handleOpenModal("edit", item)}
                               className="text-brand-accent hover:underline"
                             >
                               Edit
+                            </button>
+                            <span className="text-slate">|</span>
+                            <button
+                              onClick={() => handleDelete(item.id)}
+                              className="text-brand-red-dark hover:underline"
+                            >
+                              Delete
                             </button>
                           </td>
                         </>
@@ -243,12 +279,19 @@ export function AdminDashboard() {
                         <>
                           <td className="p-md font-medium">{item.name}</td>
                           <td className="p-md">{item.slug}</td>
-                          <td className="p-md text-right">
+                          <td className="p-md text-right space-x-sm">
                             <button
                               onClick={() => handleOpenModal("edit", item)}
                               className="text-brand-accent hover:underline"
                             >
                               Edit
+                            </button>
+                            <span className="text-slate">|</span>
+                            <button
+                              onClick={() => handleDelete(item.id)}
+                              className="text-brand-red-dark hover:underline"
+                            >
+                              Delete
                             </button>
                           </td>
                         </>
@@ -324,6 +367,28 @@ export function AdminDashboard() {
                         setFormData({ ...formData, name: e.target.value })
                       }
                     />
+                  </div>
+                  <div>
+                    <label className="block text-body-sm-medium text-slate mb-xs">
+                      Category
+                    </label>
+                    <select
+                      className="w-full h-[52px] bg-canvas border border-hairline-strong rounded-xl px-md text-body-md text-ink font-sans focus:outline-none focus:ring-2 focus:ring-brand-accent transition-all duration-200"
+                      value={formData.category_id || ""}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          category_id: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="">Select a category</option>
+                      {categoryOptions.map((cat) => (
+                        <option key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className="grid grid-cols-2 gap-md">
                     <div>
