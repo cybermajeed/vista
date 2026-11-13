@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Badge } from "../components/ui/Badge";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { supabase } from "../lib/supabase";
 import { getImageUrl } from "../utils";
 
@@ -34,23 +34,65 @@ export function Home() {
           Welcome to VISTA. Discover, customize, and price premium materials for
           your next project. Instant quotes, endless possibilities.
         </p>
-        <div className="flex items-center justify-center gap-md animate-slide-up animate-delay-200">
-          <Link to="/catalogue">
+        <div className="flex flex-wrap items-center justify-center gap-md animate-slide-up animate-delay-200">
+          <Link to="/visualizer">
             <Button
               variant="primary"
-              className="shadow-2 hover:shadow-4 hover:-translate-y-1 transition-all"
+              className="shadow-2 hover:shadow-4 hover:-translate-y-1 transition-all flex items-center gap-2"
             >
-              Browse Catalogue
+              <Sparkles className="w-4 h-4" />
+              <span>Try AI Room Visualizer</span>
             </Button>
           </Link>
-          <Link to="/signin">
+          <Link to="/catalogue">
             <Button
               variant="secondary"
               className="hover:bg-surface-soft transition-colors"
             >
-              Book a demo
+              Browse Catalogue
             </Button>
           </Link>
+        </div>
+      </section>
+
+      {/* AI Visualizer Showcase Banner */}
+      <section className="px-md md:px-lg py-section max-w-[1280px] mx-auto w-full">
+        <div className="relative rounded-feature overflow-hidden border border-hairline-strong bg-surface-pricing-featured p-xl md:p-section flex flex-col lg:flex-row items-center justify-between gap-xl shadow-2">
+          <div className="max-w-xl">
+            <Badge className="bg-brand-yellow border border-brand-yellow-deep/20 text-brand-accent font-semibold px-3 py-1 rounded-full text-xs uppercase tracking-wider mb-md inline-flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>New Feature</span>
+            </Badge>
+            <h2 className="text-display-md text-ink-deep font-serif mb-sm">
+              Visualize Materials in Your Actual Space
+            </h2>
+            <p className="text-body-md text-slate mb-lg leading-relaxed">
+              Upload a photograph of any empty room. Our image-to-image AI strictly preserves your walls, windows, and ceiling boundaries while redesigning the space with genuine materials from the VISTA catalogue.
+            </p>
+            <div className="flex items-center gap-md">
+              <Link to="/visualizer">
+                <Button variant="primary" className="flex items-center gap-2">
+                  <span>Launch Visualizer</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+
+          <div className="w-full lg:w-1/2 rounded-2xl overflow-hidden shadow-3 border border-hairline relative aspect-[16/10] bg-canvas group">
+            <img
+              src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1200"
+              alt="AI Interior Visualizer Preview"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            />
+            <div className="absolute bottom-3 left-3 bg-ink-deep/80 backdrop-blur-md text-white text-body-xs font-semibold px-sm py-1 rounded-md">
+              AI Redesigned Interior Concept
+            </div>
+            <div className="absolute top-3 right-3 bg-brand-yellow text-primary text-body-xs font-bold px-sm py-1 rounded-full shadow-sm flex items-center gap-1">
+              <Sparkles className="w-3 h-3 text-brand-accent" />
+              <span>Architectural Preservation</span>
+            </div>
+          </div>
         </div>
       </section>
 

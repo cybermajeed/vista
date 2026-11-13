@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../ui/Button";
 import { useCartStore } from "../../store/cartStore";
 import { useAuthStore } from "../../store/authStore";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sparkles } from "lucide-react";
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -27,6 +27,13 @@ export function Navbar() {
           <nav className="hidden md:flex items-center gap-md">
             {!isAdmin && (
               <>
+                <Link
+                  to="/visualizer"
+                  className="flex items-center gap-1 text-body-sm-medium text-brand-accent hover:text-accent-pressed transition-colors font-semibold"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>AI Visualizer</span>
+                </Link>
                 <Link
                   to="/catalogue"
                   className="text-body-sm-medium text-ink hover:text-brand-accent transition-colors"
@@ -115,6 +122,14 @@ export function Navbar() {
         <div className="md:hidden absolute top-16 left-0 right-0 bg-canvas border-b border-hairline-soft shadow-4 py-md px-lg flex flex-col gap-md">
           {!isAdmin && (
             <>
+              <Link
+                to="/visualizer"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-2 text-body-md-medium text-brand-accent font-semibold"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>AI Visualizer</span>
+              </Link>
               <Link
                 to="/catalogue"
                 onClick={() => setIsMobileMenuOpen(false)}

@@ -14,6 +14,7 @@ import { AdminDashboard } from './pages/AdminDashboard';
 import { SignIn } from './pages/SignIn';
 import { Profile } from './pages/Profile';
 import { Wishlist } from './pages/Wishlist';
+import { Visualizer } from './pages/Visualizer';
 import { ProtectedRoute } from './components/ProtectedRoute';
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
             
             {/* Auth Required Routes (Any authenticated user) */}
             <Route path="/profile" element={<ProtectedRoute requireAuth><Profile /></ProtectedRoute>} />
+            <Route path="/visualizer" element={<ProtectedRoute requireAuth><Visualizer /></ProtectedRoute>} />
           </Routes>
         </main>
         <Footer />
