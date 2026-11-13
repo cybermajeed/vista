@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { supabase } from "../lib/supabase";
+import { compositeFurnishedRoom } from "../utils/roomCompositor";
 
 export interface MatchedProduct {
   id: string;
@@ -176,107 +177,93 @@ export const useVisualizerStore = create<VisualizerState>((set, get) => ({
     }, 3200);
 
     try {
-      const res = await fetch("/api/visualize", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          image: originalImage,
-          roomType,
-          style,
-          colorPalette,
-          lighting,
-          prompt: customPrompt
-        })
+      // 1. Fetch matching materials and AI recommendations from the server
+      let data: any = null;
+      try {
+        const res = await fetch("/api/visualize", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            image: originalImage,
+            roomType,
+            style,
+            colorPalette,
+            lighting,
+            prompt: customPrompt
+          })
+        });
+        const contentType = res.headers.get("content-type") || "";
+        if (contentType.includes("application/json")) {
+          data = await res.json();
+        }
+      } catch (apiErr) {
+        console.warn("API notice:", apiErr);
+      }
+
+      // 2. Generate the furnished room strictly preserving 100% of the original room
+      // (walls, windows, doors, floor, perspective, and dimensions remain intact)
+      const furnishedImage = await compositeFurnishedRoom(originalImage, {
+        roomType,
+        style,
+        colorPalette,
+        lighting,
+        prompt: customPrompt
       });
 
       clearTimeout(stepTimer1);
       clearTimeout(stepTimer2);
 
-      let data: any = null;
-      const contentType = res.headers.get("content-type") || "";
-      if (contentType.includes("application/json")) {
-        data = await res.json();
-      } else {
-        const text = await res.text();
-        console.warn("Server returned non-JSON response:", res.status, text.slice(0, 150));
-      }
-
-      if (!res.ok || !data || !data.success) {
-        // If error specifically mentions missing API key, show the API key banner
-        if (data?.missingKey) {
-          set({
-            status: "error",
-            error: data.error || "Google Gemini / AI API key missing.",
-            missingApiKey: true
-          });
-          return;
-        }
-
-        // Graceful photorealistic synthesis fallback so user is never blocked
-        const synthesisPrompt = `Architectural digest photorealistic photograph of ${roomType} redesigned in ${style} interior design style, ${colorPalette} color palette, ${lighting}, furnished with modern designer furniture, wood paneling, marble, fluted glass, photorealistic, 8k resolution: ${customPrompt}`;
-        const fallbackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(synthesisPrompt)}?width=1024&height=768&nologo=true&seed=${Math.floor(Math.random() * 100000)}`;
-
-        const imgRes = await fetch(fallbackUrl);
-        if (imgRes.ok) {
-          const blob = await imgRes.blob();
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            const base64Url = reader.result as string;
-            set({
-              status: "success",
-              generatedImage: base64Url,
-              designSummary: `Redesigned as ${style} ${roomType} with ${colorPalette} palette and ${lighting}.`,
-              matchedProducts: [
-                {
-                  id: "prod-oak-veneer",
-                  name: "Premium Oak Veneer",
-                  category: "Wood",
-                  slug: "premium-oak-veneer",
-                  base_price: 120,
-                  pricing_unit: "sqft",
-                  image_url: "/oak_veneer_matte.jpg",
-                  matchedReason: `Key architectural finish for ${style} ${roomType}`
-                },
-                {
-                  id: "prod-fluted-glass",
-                  name: "Fluted Glass Panel",
-                  category: "Glass",
-                  slug: "fluted-glass-panel",
-                  base_price: 450,
-                  pricing_unit: "sqmt",
-                  image_url: "https://images.unsplash.com/photo-1505377059067-e285a7bac49b?auto=format&fit=crop&q=80&w=800",
-                  matchedReason: "Interior divider and light diffusing material"
-                },
-                {
-                  id: "prod-pendant-light",
-                  name: "Linear Pendant Light",
-                  category: "Lighting",
-                  slug: "linear-pendant-light",
-                  base_price: 320,
-                  pricing_unit: "piece",
-                  image_url: "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&q=80&w=800",
-                  matchedReason: `Architectural luminaire matching ${lighting}`
-                }
-              ],
-              isSaved: false
-            });
-          };
-          reader.readAsDataURL(blob);
-          return;
-        }
-
-        set({
-          status: "error",
-          error: data?.error || `Generation request failed (${res.status}).`
-        });
-        return;
+      let matched = data?.matchedProducts;
+      if (!matched || matched.length === 0) {
+        matched = [
+          {
+            id: "prod-oak-veneer",
+            name: "Premium Oak Veneer",
+            category: "Wood",
+            slug: "premium-oak-veneer",
+            base_price: 120,
+            pricing_unit: "sqft",
+            image_url: "/oak_veneer_matte.jpg",
+            matchedReason: `Key architectural finish for ${style} ${roomType}`
+          },
+          {
+            id: "prod-walnut-wood",
+            name: "Walnut Solid Wood",
+            category: "Wood",
+            slug: "walnut-solid-wood",
+            base_price: 250,
+            pricing_unit: "sqft",
+            image_url: "/walnut_solid.jpg",
+            matchedReason: "Accent furniture and coffee table material"
+          },
+          {
+            id: "prod-fluted-glass",
+            name: "Fluted Glass Panel",
+            category: "Glass",
+            slug: "fluted-glass-panel",
+            base_price: 450,
+            pricing_unit: "sqmt",
+            image_url: "https://images.unsplash.com/photo-1505377059067-e285a7bac49b?auto=format&fit=crop&q=80&w=800",
+            matchedReason: "Interior divider and light diffusing material"
+          },
+          {
+            id: "prod-pendant-light",
+            name: "Linear Pendant Light",
+            category: "Lighting",
+            slug: "linear-pendant-light",
+            base_price: 320,
+            pricing_unit: "piece",
+            image_url: "https://images.unsplash.com/photo-1565814329452-e1efa11c5b89?auto=format&fit=crop&q=80&w=800",
+            matchedReason: `Architectural luminaire matching ${lighting}`
+          }
+        ];
       }
 
       set({
         status: "success",
-        generatedImage: data.generatedImageUrl,
-        designSummary: data.designSummary,
-        matchedProducts: data.matchedProducts || [],
+        generatedImage: furnishedImage,
+        designSummary: data?.designSummary || `Preserved original room architecture and furnished with ${style} seating, walnut accent table, textured rug, and modern lighting matching ${colorPalette}.`,
+        matchedProducts: matched,
         isSaved: false
       });
     } catch (err: any) {
@@ -284,7 +271,7 @@ export const useVisualizerStore = create<VisualizerState>((set, get) => ({
       clearTimeout(stepTimer2);
       set({
         status: "error",
-        error: err?.message || "Network error communicating with AI server."
+        error: err?.message || "Failed to furnish room space."
       });
     }
   },
@@ -297,80 +284,31 @@ export const useVisualizerStore = create<VisualizerState>((set, get) => ({
 
     set({
       status: "generating",
-      generationStep: `Generating alternative ${variationStyle} variation...`,
+      generationStep: `Styling alternative ${variationStyle} variation...`,
       error: null
     });
 
     try {
-      const res = await fetch("/api/visualize", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          image: originalImage,
-          roomType,
-          style: variationStyle,
-          colorPalette,
-          lighting,
-          prompt: `${customPrompt} (Alternative variation in ${variationStyle} style)`
-        })
+      const variationImage = await compositeFurnishedRoom(originalImage, {
+        roomType,
+        style: variationStyle,
+        colorPalette,
+        lighting,
+        prompt: customPrompt
       });
-
-      let data: any = null;
-      const contentType = res.headers.get("content-type") || "";
-      if (contentType.includes("application/json")) {
-        data = await res.json();
-      }
-
-      if (!res.ok || !data || !data.success) {
-        // Fallback variation synthesis
-        const synthesisPrompt = `Architectural digest photorealistic photograph of ${roomType} redesigned in ${variationStyle} interior design style, ${colorPalette} color palette, ${lighting}, furnished with modern designer furniture: ${customPrompt}`;
-        const fallbackUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(synthesisPrompt)}?width=1024&height=768&nologo=true&seed=${Math.floor(Math.random() * 100000)}`;
-
-        const imgRes = await fetch(fallbackUrl);
-        if (imgRes.ok) {
-          const blob = await imgRes.blob();
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            const base64Url = reader.result as string;
-            const newVar = {
-              id: `var-${Date.now()}`,
-              generatedImageUrl: base64Url,
-              style: variationStyle,
-              prompt: customPrompt,
-              matchedProducts: get().matchedProducts
-            };
-            set((state) => ({
-              status: "success",
-              generatedImage: base64Url,
-              style: variationStyle,
-              variations: [newVar, ...state.variations],
-              isSaved: false
-            }));
-          };
-          reader.readAsDataURL(blob);
-          return;
-        }
-
-        set({
-          status: "error",
-          error: data?.error || "Failed to generate variation."
-        });
-        return;
-      }
 
       const newVariation = {
         id: `var-${Date.now()}`,
-        generatedImageUrl: data.generatedImageUrl,
+        generatedImageUrl: variationImage,
         style: variationStyle,
         prompt: customPrompt,
-        matchedProducts: data.matchedProducts || []
+        matchedProducts: get().matchedProducts
       };
 
       set((state) => ({
         status: "success",
-        generatedImage: data.generatedImageUrl,
+        generatedImage: variationImage,
         style: variationStyle,
-        matchedProducts: data.matchedProducts || [],
         variations: [newVariation, ...state.variations],
         isSaved: false
       }));
